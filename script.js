@@ -1,7 +1,7 @@
 
-let a;
-let b;
-let op;
+let a = null;
+let b = null;
+let op = null;
 
 const currentScreen = document.querySelector(".currentScreen");
 const previousScreen = document.querySelector('.previousScreen');
@@ -25,18 +25,39 @@ const equalButton = document.querySelector('.equalsButton');
 equalButton.addEventListener('click', function () { resolve() });
 
 
-function resolve(){
+function resolve() {
+    console.log("Valoarea lui b înainte de atribuire:", b);
+
     if (!previousScreen.textContent.includes('=')) {
         b = Number(currentScreen.textContent);
     }
-    const result = operate(op, a, b);
 
-    previousScreen.textContent = `${a} ${op} ${b} = `;
-    currentScreen.textContent = `${result}`;
-    a = result;
+    console.log("Valoarea lui b după atribuire:", b);
+
+    if (op === '%'){
+        let percentResult = percent(a);
+        previousScreen.textContent = `${a} ${op}  = `;
+        currentScreen.textContent = `${percentResult}`;
+        a = percentResult;
+
+    }
+    else if (op === null) {
+        previousScreen.textContent = `${b} = `;
+        currentScreen.textContent = `${b}`;
+    }
+     else {
+        let result = operate(op, a, b);
+        result = Math.round((result + Number.EPSILON) * 1000000) / 1000000;
+
+        if (result === null) {
+            currentScreen.textContent = 'Cannot divide by 0'
+        } else {
+            previousScreen.textContent = `${a} ${op} ${b} = `;
+            currentScreen.textContent = `${result}`;
+            a = result;
+        }
+    }
 }
-
-
 
 
 function resetCalculator(){
@@ -51,11 +72,7 @@ function resetCalculator(){
 function showOnScreen(text) {
    
     if (previousScreen.textContent.includes('=')) {
-        previousScreen.textContent = '';
-        currentScreen.textContent = '';
-        a = null;
-        b = null;
-        op = null;
+    resetCalculator();
     }
     currentScreen.textContent += text;
 }
@@ -63,8 +80,8 @@ function showOnScreen(text) {
 
 function operatorPress(button) {
 
-    if (previousScreen.textContent !== '') {
-        resolve();
+    if (previousScreen.textContent !== '' && !(previousScreen.textContent.includes('='))) {
+         resolve();
     }
 
     op = button.textContent;
@@ -82,6 +99,8 @@ function operate(op, a, b) {
        return  multiply(a, b);
     } else if (op === '/') {
         return divide(a, b);
+    } else if (op === '%'){
+        return percent(a);
     }
 }
 function add(a, b) {
@@ -97,5 +116,9 @@ function divide(a, b) {
     if (b === 0) {
         return null;
     }
-    return a / b;
+    return (a / b);
+}
+
+function percent(a){
+return (a/100);
 }
