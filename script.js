@@ -4,6 +4,17 @@ let a;
 let b;
 let op;
 
+
+const clear = document.querySelector('.clearButton');
+clear.addEventListener('click',function() {resetCalculator()} );
+
+function resetCalculator(){
+    screen.textContent = '';
+    a = null;
+    b = null;
+    op = null;
+}
+
 const buttons = document.querySelectorAll('.inputButton');
 buttons.forEach(element => element.addEventListener('click', function () { showOnScreen(element) }));
 
