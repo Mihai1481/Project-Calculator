@@ -21,6 +21,8 @@ operatorButtons.forEach(button => button.addEventListener('click', function(){op
 const deleteButton = document.querySelector('.deleteButton');
 deleteButton.addEventListener('click', function(){ deleteLastCharacter()});
 
+const dotButton = document.querySelector('.dotButton');
+dotButton.addEventListener('click', function(){checkDot()});
 
 const equalButton = document.querySelector('.equalsButton');
 equalButton.addEventListener('click', function () { resolve() });
@@ -33,14 +35,14 @@ function resolve() {
     }
 
 
-    if (op === '%'){
-        let percentResult = percent(a);
-        previousScreen.textContent = `${a} ${op}  = `;
-        currentScreen.textContent = `${percentResult}`;
-        a = percentResult;
+    // if (op === '%'){
+    //     let percentResult = percent(a);
+    //     previousScreen.textContent = `${a} ${op}  = `;
+    //     currentScreen.textContent = `${percentResult}`;
+    //     a = percentResult;
 
-    }
-    else if (op === null) {
+
+     if (op === null) {
         previousScreen.textContent = `${b} = `;
         currentScreen.textContent = `${b}`;
     }
@@ -57,6 +59,15 @@ function resolve() {
         }
     }
 }
+
+
+function checkDot(){
+    let length = currentScreen.textContent.length;
+    if ((length >0 ) && (currentScreen.textContent.charAt(length-1))){
+        currentScreen.textContent += dotButton.textContent;
+    }
+}   
+
 
 
 function resetCalculator(){
@@ -103,7 +114,7 @@ function operate(op, a, b) {
     } else if (op === '/') {
         return divide(a, b);
     } else if (op === '%'){
-        return percent(a);
+        return percent(a,b);
     }
 }
 function add(a, b) {
@@ -122,6 +133,6 @@ function divide(a, b) {
     return (a / b);
 }
 
-function percent(a){
-return (a/100);
+function percent(a,b){
+return (a/100)*b;
 }
