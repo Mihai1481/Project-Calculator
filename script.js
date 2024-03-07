@@ -18,7 +18,8 @@ numberButtons.forEach(button => button.addEventListener('click', function () { s
 const operatorButtons = document.querySelectorAll('.operatorButton');
 operatorButtons.forEach(button => button.addEventListener('click', function(){operatorPress(button)}));
 
-
+const deleteButton = document.querySelector('.deleteButton');
+deleteButton.addEventListener('click', function(){ deleteLastCharacter()});
 
 
 const equalButton = document.querySelector('.equalsButton');
@@ -26,13 +27,11 @@ equalButton.addEventListener('click', function () { resolve() });
 
 
 function resolve() {
-    console.log("Valoarea lui b înainte de atribuire:", b);
 
     if (!previousScreen.textContent.includes('=')) {
         b = Number(currentScreen.textContent);
     }
 
-    console.log("Valoarea lui b după atribuire:", b);
 
     if (op === '%'){
         let percentResult = percent(a);
@@ -77,6 +76,10 @@ function showOnScreen(text) {
     currentScreen.textContent += text;
 }
 
+
+function deleteLastCharacter(){
+    currentScreen.textContent = currentScreen.textContent.slice(0,-1);
+}
 
 function operatorPress(button) {
 
