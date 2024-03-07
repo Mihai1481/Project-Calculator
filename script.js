@@ -35,13 +35,6 @@ function resolve() {
     }
 
 
-    // if (op === '%'){
-    //     let percentResult = percent(a);
-    //     previousScreen.textContent = `${a} ${op}  = `;
-    //     currentScreen.textContent = `${percentResult}`;
-    //     a = percentResult;
-
-
      if (op === null) {
         previousScreen.textContent = `${b} = `;
         currentScreen.textContent = `${b}`;
@@ -63,9 +56,12 @@ function resolve() {
 
 function checkDot(){
     let length = currentScreen.textContent.length;
-    if ((length >0 ) && (currentScreen.textContent.charAt(length-1))){
+    let dot = currentScreen.textContent.includes('.');
+
+    if ((length >0 ) && (currentScreen.textContent.charAt(length-1))&&(!dot)){
         currentScreen.textContent += dotButton.textContent;
     }
+
 }   
 
 
